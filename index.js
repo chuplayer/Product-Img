@@ -97,5 +97,8 @@ let dbFuc = async (descImgs, num) => {
 	let arr = data['id']
 	for (let i = 0; i < arr.length; i++) {
 		await alibaba(`https://m.1688.com/offer/${arr[i]}.html`, i)
+		if (i + 1 === arr.length) {
+			console.log('全部下载完成，请关闭控制台！')
+		}
 	}
 })()
