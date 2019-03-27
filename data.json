@@ -1,4 +1,15 @@
 {
+	"resize": false,
+	"size": {
+		"swipe": {
+			"width": 400,
+			"height": 400
+		},
+		"content": {
+			"width": 800
+		}
+	},
+	"folder": "product",
 	"id": [
 		589851703028
 	]
