@@ -8,3 +8,4 @@
 2.修改data.json里面的id,逐行增加.(https://m.1688.com/offer/588836518552.html 取 588836518552 )<br/>
 3.执行node index.js
 
+下载后的图片会在product文件夹里面.
