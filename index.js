@@ -53,7 +53,7 @@ let alibaba = async (url, num) => {
 		descImgs['swipe'] = swipe
 
 		//采集商品详情图
-		const contentHandle = await page.$('#J_WapDetailCommonDescription_Content > p')
+		const contentHandle = await page.$('#J_WapDetailCommonDescription_Content')
 		let content = await page.evaluate(descContainer => {
 			let content = []
 			descContainer.querySelectorAll('img').forEach(imgElement => {
