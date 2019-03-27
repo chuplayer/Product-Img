@@ -5,7 +5,7 @@ const Ut = require('./common')
 let data = require('./data.json')
 
 //获取阿里巴巴图片url
-let alibaba = async (url, num) => {
+let alibaba = async (url, id) => {
 	return new Promise(async (resolve, reject) => {
 		let descImgs = {
 			swipe: [],
@@ -64,13 +64,13 @@ let alibaba = async (url, num) => {
 		}, contentHandle)
 		descImgs['content'] = content
 
-		await dbFuc(descImgs, num)
+		await dbFuc(descImgs, id)
 		return resolve()
 	})
 }
 
 // 下载图片到本地
-let dbFuc = async (descImgs, num) => {
+let dbFuc = async (descImgs, id) => {
 	let arr = Object.keys(descImgs)
 	for (let i = 0; i < arr.length; i++) {
 		for (let j = 0; j < descImgs[arr[i]].length; j++) {
@@ -82,8 +82,8 @@ let dbFuc = async (descImgs, num) => {
 						'Referer': 'https://m.1688.com/',
 					}
 				}
-				let path = `./product/${num}/${arr[i]}/${j}.jpg`
-				let str = await Ut.downImg(opts, path, `./product/${num}/${arr[i]}`)
+				let path = `./product/${id}/${arr[i]}/${j}.jpg`
+				let str = await Ut.downImg(opts, path, `./product/${id}/${arr[i]}`)
 				console.log(str)
 			}
 			catch (e) {
@@ -96,7 +96,7 @@ let dbFuc = async (descImgs, num) => {
 (async () => {
 	let arr = data['id']
 	for (let i = 0; i < arr.length; i++) {
-		await alibaba(`https://m.1688.com/offer/${arr[i]}.html`, i)
+		await alibaba(`https://m.1688.com/offer/${arr[i]}.html`, arr[i])
 		if (i + 1 === arr.length) {
 			console.log('全部下载完成，请关闭控制台！')
 		}
