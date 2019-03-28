@@ -82,7 +82,7 @@ let dbFuc = async (descImgs, id) => {
 						'Referer': 'https://m.1688.com/',
 					}
 				}
-				let path = `./${data['folder']}/${id}/${arr[i]}/${j}.jpg`
+				let path = `./${data['folder']}/${id}/${arr[i]}/${arr[i]}_${id}_${j}.jpg`
 				let str = await Ut.downImg(opts, path, `./${data['folder']}/${id}/${arr[i]}`, arr[i], data['size'], data['resize'], id)
 				console.log(str)
 			}
