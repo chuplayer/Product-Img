@@ -58,14 +58,20 @@ let alibaba = async (url, id) => {
 			let content = []
 			descContainer.querySelectorAll('img').forEach(imgElement => {
 				// 遍历保存所有的详情页图片
-				content.push(imgElement.getAttribute('src') == '//cbu01.alicdn.com/cms/upload/other/lazyload.png' ? imgElement.getAttribute('data-lazyload-src') : `https:${imgElement.getAttribute('src')}`)
+				if (imgElement.getAttribute('src') == '//cbu01.alicdn.com/cms/upload/other/lazyload.png') {
+					content.push(imgElement.getAttribute('data-lazyload-src'))
+				} else {
+					if (imgElement.getAttribute('src') !== null) {
+						content.push(`https:${imgElement.getAttribute('src')}`)
+					}
+				}
 			})
 			return content
 		}, contentHandle)
 		descImgs['content'] = content
-
-		await dbFuc(descImgs, id)
-		return resolve()
+		console.log(content)
+		// await dbFuc(descImgs, id)
+		// return resolve()
 	})
 }
 
