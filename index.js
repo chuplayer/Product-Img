@@ -69,9 +69,8 @@ let alibaba = async (url, id) => {
 			return content
 		}, contentHandle)
 		descImgs['content'] = content
-		console.log(content)
-		// await dbFuc(descImgs, id)
-		// return resolve()
+		await dbFuc(descImgs, id)
+		return resolve()
 	})
 }
 
