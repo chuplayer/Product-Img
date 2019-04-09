@@ -1,5 +1,5 @@
 {
-	"resize": false,
+	"resize": true,
 	"size": {
 		"swipe": {
 			"width": 400,
