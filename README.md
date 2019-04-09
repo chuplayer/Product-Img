@@ -1,4 +1,4 @@
-# 1688-product-img
+# product-img
 
 第三方模块Puppeteer,mkdirp,request,images,gm</br>
 
