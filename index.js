@@ -121,8 +121,18 @@ let aliexpress = async (url, id, type) => {
 			let swipe = []
 			descContainer.querySelectorAll('.i-amphtml-slide-item > amp-img').forEach(imgElement => {
 				let a = imgElement.getAttribute('src')
-				let b = a.substring(a.indexOf('https'))
-				let c = b.substring(0, b.indexOf('.jpg') + 4)
+				let b = ''
+				if (a.indexOf('https:') === -1) {
+					b = 'https:' + a
+				} else {
+					b = a
+				}
+				let c = ''
+				if (b.indexOf('.jpg') >= 1) {
+					c = b.substring(0, b.indexOf('.jpg') + 4)
+				} else {
+					c = b
+				}
 				swipe.push(c)
 			})
 			return swipe
@@ -136,9 +146,20 @@ let aliexpress = async (url, id, type) => {
 		let content = await frame.evaluate(descContainer => {
 			let content = []
 			descContainer.querySelectorAll('img').forEach(imgElement => {
-				if ((imgElement.getAttribute('src')).indexOf('120x120.jpg') === -1) {
-					content.push(imgElement.getAttribute('src'))
+				let a = imgElement.getAttribute('src')
+				let b = ''
+				if (a.indexOf('https:') === -1) {
+					b = 'https:' + a
+				} else {
+					b = a
 				}
+				let c = ''
+				if (b.indexOf('.jpg') >= 1) {
+					c = b.substring(0, b.indexOf('.jpg') + 4)
+				} else {
+					c = b
+				}
+				content.push(c)
 			})
 			return content
 		}, contentHandle)
