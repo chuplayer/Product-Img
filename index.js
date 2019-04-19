@@ -117,23 +117,27 @@ let aliexpress = async (url, id, type) => {
 
 		//采集商品轮播图
 		const swipeHandle = await page.$('.i-amphtml-slides-container')
-		let swipe = await page.evaluate(descContainer => {
+		let swipe = await page.evaluate(async descContainer => {
 			let swipe = []
 			descContainer.querySelectorAll('.i-amphtml-slide-item > amp-img').forEach(imgElement => {
 				let a = imgElement.getAttribute('src')
 				let b = ''
+				let c = ''
 				if (a.indexOf('https:') === -1) {
 					b = 'https:' + a
 				} else {
-					b = a
+					b = a.substring(a.indexOf('https:'))
 				}
-				let c = ''
-				if (b.indexOf('.jpg') >= 1) {
-					c = b.substring(0, b.indexOf('.jpg') + 4)
-				} else {
-					c = b
+				if (b.indexOf('.jpg') >= 0 || b.indexOf('.png') >= 0 || b.indexOf('.jpeg') >= 0) {
+					if (b.indexOf('.jpg') >= 0) {
+						c = b.substring(0, b.indexOf('.jpg') + 4)
+					} else if (b.indexOf('.png') >= 0) {
+						c = b.substring(0, b.indexOf('.png') + 4)
+					} else if (b.indexOf('.jpeg') >= 0) {
+						c = b.substring(0, b.indexOf('.jpeg') + 5)
+					}
+					swipe.push(c)
 				}
-				swipe.push(c)
 			})
 			return swipe
 		}, swipeHandle)
@@ -143,23 +147,27 @@ let aliexpress = async (url, id, type) => {
 		//采集商品详情图
 		const frame = page.frames().find(frame => frame.name() === 'amp_iframe0')
 		const contentHandle = await frame.$('body')
-		let content = await frame.evaluate(descContainer => {
+		let content = await frame.evaluate(async descContainer => {
 			let content = []
 			descContainer.querySelectorAll('img').forEach(imgElement => {
 				let a = imgElement.getAttribute('src')
 				let b = ''
+				let c = ''
 				if (a.indexOf('https:') === -1) {
 					b = 'https:' + a
 				} else {
-					b = a
+					b = a.substring(a.indexOf('https:'))
 				}
-				let c = ''
-				if (b.indexOf('.jpg') >= 1) {
-					c = b.substring(0, b.indexOf('.jpg') + 4)
-				} else {
-					c = b
+				if (b.indexOf('.jpg') >= 0 || b.indexOf('.png') >= 0 || b.indexOf('.jpeg') >= 0) {
+					if (b.indexOf('.jpg') >= 0) {
+						c = b.substring(0, b.indexOf('.jpg') + 4)
+					} else if (b.indexOf('.png') >= 0) {
+						c = b.substring(0, b.indexOf('.png') + 4)
+					} else if (b.indexOf('.jpeg') >= 0) {
+						c = b.substring(0, b.indexOf('.jpeg') + 5)
+					}
+					content.push(c)
 				}
-				content.push(c)
 			})
 			return content
 		}, contentHandle)
