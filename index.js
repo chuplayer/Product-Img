@@ -142,7 +142,7 @@ let aliexpress = async (url, id, type) => {
 			return swipe
 		}, swipeHandle)
 		descImgs['swipe'] = swipe
-		// console.log(swipe)
+		console.log(swipe)
 
 		//采集商品详情图
 		const frame = page.frames().find(frame => frame.name() === 'amp_iframe0')
@@ -172,7 +172,7 @@ let aliexpress = async (url, id, type) => {
 			return content
 		}, contentHandle)
 		descImgs['content'] = content
-		// console.log(content)
+		console.log(content)
 
 		await dbFuc(descImgs, id, type)
 		return resolve()

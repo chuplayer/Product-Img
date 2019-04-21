@@ -1,8 +1,8 @@
 const request = require('request')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
-const gm = require('gm').subClass({ imageMagick: true })
-const images = require("images")
+const im = require("imagemagick")
+const imageSize = require("image-size")
 
 class Ut {
   /**
@@ -31,24 +31,21 @@ class Ut {
             })
             .pipe(fs.createWriteStream(path))
             .on('error', (e) => {
-              console.log('pipe error', e)
+              console.log('通道(error)', e)
               resolve('')
             })
-            .on('finish', () => {
+            .on('finish', async () => {
               if (is_resize) {
-                resizeCurrentImg(path, type_folder, size_data[type_folder]).then(() => {
-                  resolve('finish')
-                  console.log(`ID为${id}的${type_folder}图片下载并缩放完成`)
-                }).catch(err => {
-                  reject(err)
-                })
+                await resizeCurrentImg(path, type_folder, size_data[type_folder])
+                console.log(`ID为${id}的${type_folder}图片下载并缩放完成`)
+                resolve('完成(finish)')
               } else {
-                resolve('finish')
                 console.log(`ID为${id}的${type_folder}图片下载完成`)
+                resolve('完成(finish)')
               }
             })
             .on('close', () => {
-              console.log('close')
+              console.log('通道(close)')
             })
         }
       })
@@ -65,18 +62,25 @@ class Ut {
  */
 let resizeCurrentImg = async (srcImg, type_folder, size_data) => {
   return new Promise(async (resolve, reject) => {
-    let width = await images(srcImg).width()
-    let height = await images(srcImg).height()
+    console.log(srcImg)
+    let dimensions = await imageSize(srcImg)
+    let width = dimensions.width
+    let height = dimensions.height
     if (type_folder === 'swipe') {
       width = size_data['width']
       height = size_data['height']
     } else if (type_folder === 'content') {
-      height = (height/width) * size_data['width']
+      height = (height / width) * size_data['width']
       width = size_data['width']
     }
-    gm(srcImg).resize(width, height).write(srcImg, (err) => {
-      if (err) {
-        reject(err)
+    im.resize({
+      srcPath: srcImg,
+      dstPath: srcImg,
+      width,
+      height
+    }, (err, stdout, stderr) => {
+      if (err) { 
+        reject(err) 
       } else {
         resolve()
       }
